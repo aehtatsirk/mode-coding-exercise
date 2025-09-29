@@ -1,5 +1,7 @@
 # MODE Coding Exercise — Node.js
 
+Reference: https://github.com/tinkermode/mode-assignment-general-v2
+
 CLI that fetches time-series data from `https://tsserv.tinkermode.dev/data` and computes **hourly averages** between two hour-aligned timestamps.
 
 ## Build
@@ -10,9 +12,7 @@ Install dependencies:
 npm i
 ```
 
-## Usage
-
-Run the main program.
+## Run the main program
 **Requirements:**
 
 - Input timestamps must be **RFC3339** and hour-aligned (minutes and seconds === `00`).
