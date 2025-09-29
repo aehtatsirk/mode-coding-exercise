@@ -4,7 +4,16 @@ import { startOfHourISO, endOfHourISO } from "./utils.js";
 
 const BASE_URL = "https://tsserv.tinkermode.dev";
 
-function doGet(url) {
+// fetch values from an arbitrary time series
+// https://tsserv.tinkermode.dev/data?begin=<BEGIN_TIMESTAMP>&end=<END_TIMESTAMP>
+export function fetchTimeSeriesData(startTime, endTime) {
+    const beginISO = startOfHourISO(startTime);
+    const endISO = endOfHourISO(endTime);
+
+    const url = new URL("/data", BASE_URL);
+    url.searchParams.set("begin", beginISO);
+    url.searchParams.set("end", endISO);
+
     return new Promise((resolve, reject) => {
         const req = https.get(url, (res) => {
             if (res.statusCode !== 200) {
@@ -17,20 +26,7 @@ function doGet(url) {
         req.setTimeout(30000, () => {
             req.destroy(new Error("Request timed out"));
         });
-    });
-}
-
-// fetch values from an arbitrary time series
-// https://tsserv.tinkermode.dev/data?begin=<BEGIN_TIMESTAMP>&end=<END_TIMESTAMP>
-export function fetchTimeSeriesData(startTime, endTime) {
-    const beginISO = startOfHourISO(startTime);
-    const endISO = endOfHourISO(endTime);
-
-    const url = new URL("/data", BASE_URL);
-    url.searchParams.set("begin", beginISO);
-    url.searchParams.set("end", endISO);
-
-    return doGet(url.href);
+    });;
 }
 
 // check if the program generates the right results
